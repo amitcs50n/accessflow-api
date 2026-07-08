@@ -3,6 +3,7 @@ from flask import Flask
 from app.routes.health import health_bp
 from app.core.config import Config
 from app.extensions import db, migrate
+from app import models as models
 
 
 def create_app():
