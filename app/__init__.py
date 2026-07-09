@@ -11,7 +11,7 @@ def create_app():
     app.config.from_object(Config)
 
     db.init_app(app)
-    migrate.init_app(app, db)
+    migrate.init_app(app, db)  # This line connects Alembic with SQLAlchemy models:
 
     app.register_blueprint(health_bp, url_prefix="/api/v1")
 
