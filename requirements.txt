@@ -7,3 +7,5 @@ black==24.4.2
 Flask-SQLAlchemy==3.1.1
 Flask-Migrate==4.0.7
 psycopg[binary]
+marshmallow==3.26.1
+Flask-Smorest==0.46.2
