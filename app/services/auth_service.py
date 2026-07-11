@@ -1,6 +1,7 @@
 from flask_smorest import abort
 from sqlalchemy.exc import IntegrityError
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import create_access_token
 
 from app.extensions import db
 from app.models.organization import Organization
@@ -50,7 +51,25 @@ class AuthService:
             "user": user,
         }
 
+    #   This service performs the complete registration workflow:
+    #   checks duplicates, normalizes values, hashes the password,
+    #   creates both records, and commits them together
+    @staticmethod
+    def login(data):
+        email = data["email"].strip().lower()
+        user = UserRepository.get_by_email(email)
 
-#   This service performs the complete registration workflow:
-#   checks duplicates, normalizes values, hashes the password,
-#   creates both records, and commits them together
+        if user is None or not check_password_hash(
+            user.password_hash, data["password"]
+        ):
+            abort(401, message="Invalid email or password")
+
+        if not user.is_active:
+            abort(403, message="User account is inactive")
+
+        access_token = create_access_token(identity=str(user.id))
+
+        return {
+            "access_token": access_token,
+            "token_type": "Bearer",
+        }

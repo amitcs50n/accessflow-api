@@ -31,3 +31,16 @@ class RegisterResponseSchema(Schema):  # formats the successful response.
     message = fields.Str(dump_only=True)
     user = fields.Nested(PlainUserSchema(), dump_only=True)
     organization = fields.Nested(PlainOrganizationSchema(), dump_only=True)
+
+
+class LoginSchema(Schema):
+    email = fields.Email(required=True)
+    password = fields.Str(required=True, load_only=True)
+
+
+# I used separate LoginSchema because login only needs......
+
+
+class LoginResponseSchema(Schema):
+    access_token = fields.Str(dump_only=True)
+    token_type = fields.Str(dump_only=True)
