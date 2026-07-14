@@ -23,7 +23,7 @@ class RegisterView(MethodView):
 
 
 @auth_bp.route("/login")
-class Login_view(MethodView):
+class LoginView(MethodView):
     @auth_bp.arguments(LoginSchema)
     @auth_bp.response(200, LoginResponseSchema)
     def post(self, data):
