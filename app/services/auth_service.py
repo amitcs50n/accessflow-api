@@ -8,6 +8,8 @@ from app.models.organization import Organization
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
 
+from app.core.exceptions import ConflictError, PermissionDeniedError
+
 
 class AuthService:
     @staticmethod
@@ -18,13 +20,13 @@ class AuthService:
         slug = organization_data["slug"].strip().lower()
 
         if UserRepository.get_by_email(email):
-            abort(409, message="Email already registered")
+            raise ConflictError("Email already registered")
 
         existing_organization = db.session.scalar(
             db.select(Organization).where(Organization.slug == slug)
         )
         if existing_organization:
-            abort(409, message="Organization slug already exists")
+            raise ConflictError("Organization slug already exists")
 
         organization = Organization(name=organization_data["name"].strip(), slug=slug)
 
@@ -41,9 +43,9 @@ class AuthService:
             UserRepository.add(user)
             db.session.commit()
 
-        except IntegrityError:
+        except IntegrityError as error:
             db.session.rollback()
-            abort(409, message="Registration details already exist")
+            raise ConflictError("Registration details already exist") from error
 
         return {
             "message": "User registered successfully",
@@ -65,7 +67,7 @@ class AuthService:
             abort(401, message="Invalid email or password")
 
         if not user.is_active:
-            abort(403, message="User account is inactive")
+            raise PermissionDeniedError("User account is inactive")
 
         access_token = create_access_token(identity=str(user.id))
 
