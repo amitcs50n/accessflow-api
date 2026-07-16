@@ -27,7 +27,7 @@ def test_registration_endpoint(mock_register):
             "id": 1,
             "name": "Test User",
             "email": "test@example.com",
-            "role": "ADMIN",
+            "role": "PLATFORM_ADMIN",
         },
     }
 

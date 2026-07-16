@@ -9,6 +9,7 @@ from app.models.user import User
 from app.repositories.user_repository import UserRepository
 
 from app.core.exceptions import ConflictError, PermissionDeniedError
+from app.core.constants import UserRole
 
 
 class AuthService:
@@ -35,7 +36,7 @@ class AuthService:
             name=user_data["name"].strip(),
             email=email,
             password_hash=generate_password_hash(user_data["password"]),
-            role="ADMIN",
+            role=UserRole.PLATFORM_ADMIN.value,
         )
 
         try:

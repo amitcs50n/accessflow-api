@@ -2,6 +2,8 @@ from sqlalchemy import func
 
 from app.extensions import db
 
+from app.core.constants import UserRole
+
 
 class User(db.Model):
     __tablename__ = "users"
@@ -13,7 +15,7 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.String(50), nullable=False, default="REQUESTER")
+    role = db.Column(db.String(50), nullable=False, default=UserRole.REQUESTER.value)
     department = db.Column(db.String(100), nullable=True)
     manager_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
     is_active = db.Column(db.Boolean, nullable=False, default=True)
