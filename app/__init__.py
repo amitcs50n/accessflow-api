@@ -7,6 +7,7 @@ from app.extensions import db, migrate, api, jwt
 from app import models as models
 from app.routes.users import users_bp
 from app.core.exceptions import register_error_handlers
+from app.routes.data_products import data_products_bp
 
 
 def create_app(test_config=None):
@@ -24,6 +25,7 @@ def create_app(test_config=None):
     app.register_blueprint(health_bp, url_prefix="/api/v1")
     api.register_blueprint(auth_bp)
     api.register_blueprint(users_bp)
+    api.register_blueprint(data_products_bp)
 
     register_error_handlers(app)
 
