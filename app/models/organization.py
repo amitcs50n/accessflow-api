@@ -20,3 +20,5 @@ class Organization(db.Model):
     )
 
     users = db.relationship("User", back_populates="organization")
+
+    data_products = db.relationship("DataProduct", back_populates="organization")

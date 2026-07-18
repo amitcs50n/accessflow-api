@@ -31,3 +31,9 @@ class User(db.Model):
 
     organization = db.relationship("Organization", back_populates="users")
     manager = db.relationship("User", remote_side=[id])
+
+    owned_data_products = db.relationship(
+        "DataProduct",
+        back_populates="owner",
+        foreign_keys="DataProduct.owner_user_id",
+    )
