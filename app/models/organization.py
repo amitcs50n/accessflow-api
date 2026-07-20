@@ -22,3 +22,5 @@ class Organization(db.Model):
     users = db.relationship("User", back_populates="organization")
 
     data_products = db.relationship("DataProduct", back_populates="organization")
+
+    access_requests = db.relationship("AccessRequest", back_populates="organization")
