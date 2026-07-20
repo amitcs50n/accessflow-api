@@ -37,3 +37,9 @@ class User(db.Model):
         back_populates="owner",
         foreign_keys="DataProduct.owner_user_id",
     )
+
+    submitted_access_requests = db.relationship(
+        "AccessRequest",
+        back_populates="requester",
+        foreign_keys="AccessRequest.requester_id",
+    )

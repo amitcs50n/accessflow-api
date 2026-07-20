@@ -38,3 +38,8 @@ class DataProduct(db.Model):
     owner = db.relationship(
         "User", back_populates="owned_data_products", foreign_keys=[owner_user_id]
     )
+
+    access_requests = db.relationship(
+        "AccessRequest",
+        back_populates="data_product",
+    )
